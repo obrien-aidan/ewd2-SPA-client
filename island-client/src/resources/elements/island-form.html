@@ -1,0 +1,28 @@
+<template>
+  <form submit.trigger="addIsland()" class="ui form stacked segment">
+    <h3 class='ui dividing header'> Add Island </h3>
+    <div class="grouped inline fields">
+      <div class="field">
+        <label>Name</label> <input type="string" value.bind="name">
+      </div>
+    </div>
+    <div class="grouped inline fields">
+      <div class="field" repeat.for="provence of provence">
+        <div class="ui radio checkbox">
+          <input type="radio" model.bind="provence" checked.bind="selectedProvence">
+          <label>${provence}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="text area">
+      <label>Description</label>
+      <textarea placeholder="Tell us more" rows="6" input type="string" value.bind="description"></textarea>
+
+    </div>
+
+
+
+    <button class="ui blue submit button">Add</button>
+  </form>
+</template>
