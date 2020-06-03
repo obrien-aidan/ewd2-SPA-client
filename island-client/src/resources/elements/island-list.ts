@@ -3,5 +3,5 @@ import { Island } from '../../services/island-types';
 
 export class IslandList {
   @bindable
-  islands : number[];
+  islands : Island[];
 }

@@ -8,8 +8,8 @@ import {IslandService} from "../../services/island-service";
 export class IslandForm {
   @bindable
   islands: Island[] = [];
-  @bindable
-  users: User[] = [];
+  //@bindable
+  //users: User[] = [];
   @bindable
   provence: string[];
 
@@ -17,7 +17,7 @@ export class IslandForm {
   description = '';
   image = '';
   selectedProvence = '';
-  user=User;
+  //user=User;
 
   addIsland() {
     const island = {
@@ -25,7 +25,7 @@ export class IslandForm {
       image: this.image,
       description: this.description,
       provence: this.selectedProvence,
-      user: this.user,
+      //user: this.user,
     };
     this.islands.push(island);
     console.log(this.islands);

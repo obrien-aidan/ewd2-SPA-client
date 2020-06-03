@@ -12,7 +12,6 @@ export class Login {
   async login(e) {
     console.log(`Trying to log in ${this.email}`);
     const success = await this.ds.login(this.email, this.password);
-    // @ts-ignore
     if (!success) {
       this.prompt = "Oops! Try again...";
     }
