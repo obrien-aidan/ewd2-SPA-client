@@ -63,7 +63,7 @@ export class IslandService {
 //      }
 //      this.islands.push(island);
 //    });
-  }
+//  }
   async signup(firstName: string, lastName: string, email: string, password: string) {
     const user = {
       firstName: firstName,
