@@ -24,8 +24,7 @@
     "hmr": false,
     "open": false,
     "port": 8080,
-    "host": "localhost",
-    "output": "dist"
+    "output": "public"
   },
   "packageManager": "npm"
 }
