@@ -3,8 +3,10 @@ import { Router } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
 import { Island, User } from './island-types';
 import { HttpClient } from 'aurelia-http-client';
+import ImageStore from './image-store'
+import * as environment from '../../config/environment.json';
 
-@inject(HttpClient, Aurelia, Router)
+@inject(HttpClient, Aurelia, Router, ImageStore)
 export class IslandService {
   //users: Map<string, User> = new Map();
   islands: Island[] = [];
@@ -18,52 +20,67 @@ export class IslandService {
       http.withBaseUrl('http://localhost:3000');
     });
   }
-//--------------------------------------------------------
-  //async getCandidates() {
-   // const response = await this.httpClient.get('/api/candidates.json');
-   // this.candidates = await response.content;
-   // console.log (this.candidates);
-  //}
-  //----------------------------------------------------
-  //async getUsers() {
-  //  const response = await this.httpClient.get('/api/users');
-  //  const users = await response.content;
-  //  users.forEach(user => {
-  //    this.users.set(user.email, user);
-  //    this.usersById.set(user._id, user);
-  //  });
-  //}
-  async addIsland(name: string, description: string, provence: string, user: User, image:string) {
+
+  async uploadImage(imageFile) {
+    const formData = new FormData();
+    formData.append('file', imageFile[0]);
+    formData.append('upload_preset', `${environment.cloudinary.preset}`);
+
+    try {
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${environment.cloudinary.name}/upload`, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: formData
+      });
+      const content = await response.json()
+      return content.url
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async addIsland(name: string, description: string, provence: string, image: File) {
+
+    const response = await this.httpClient.get('/api/user')
+    const imageUrl = await this.uploadImage(image)
+
+    const user: User = response.content
     const island = {
       name: name,
       description: description,
       provence: provence,
-      //user: user,
-      image: image
+      user: user.firstName,
+      image: imageUrl
 
-  };
+    };
     await this.httpClient.post('/api/users/' + user._id + '/islands', island);
+    alert("Island added successfully")
+    // this.getIslands()
     this.islands.push(island);
     //this.total = this.total + amount;
     //this.ea.publish(new TotalUpdate(this.total));
     //console.log('Total so far ' + this.total);
   }
 
-//  async getIslands() {
-//    const response = await this.httpClient.get('/api/islands');
-//    const rawIslands: RawIsland[] = await response.content;
-//    rawIslands.forEach(rawIsland => {
-//      const island = {
-//        name: rawIsland.name,
-//        image: rawIsland.image,
-//        description: rawIsland.description,
-//        provence : rawIsland.provence,
-//        user: this.usersById.get(rawIsland.user)
-        //candidate :this.candidates.find(candidate => rawDonation.candidate == candidate._id),
-//      }
-//      this.islands.push(island);
-//    });
-//  }
+ async getIslands() {
+   const response = await this.httpClient.get('/api/islands');
+   const rawIslands: Island[] = await response.content;
+
+   console.log(rawIslands)
+   rawIslands.forEach(rawIsland => {
+     const island = {
+       name: rawIsland.name,
+       image: rawIsland.image,
+       description: rawIsland.description,
+       provence : rawIsland.provence,
+//       user: rawIsland.user//this.usersById.get(rawIsland.user)
+        // candidate :this.candidates.find(candidate => rawDonation.candidate == candidate._id),
+     }
+     this.islands.push(island);
+   });
+ }
   async signup(firstName: string, lastName: string, email: string, password: string) {
     const user = {
       firstName: firstName,
@@ -86,7 +103,7 @@ export class IslandService {
           configuration.withHeader('Authorization', 'bearer ' + status.token);
         });
         localStorage.islands = JSON.stringify(response.content);
-        //await this.getCandidates();
+        await this.getIslands();
         this.changeRouter(PLATFORM.moduleName('app'));
         success = status.success;
       }

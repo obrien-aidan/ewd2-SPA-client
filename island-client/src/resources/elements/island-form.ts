@@ -13,13 +13,15 @@ export class IslandForm {
   @bindable
   provence: string[];
 
+  constructor(private ds: IslandService) { }
+
+
   name = '';
   description = '';
-  image = '';
+  image = null;
   selectedProvence = '';
-  //user=User;
 
-  addIsland() {
+  async addIsland() {
     const island = {
       name: this.name,
       image: this.image,
@@ -27,7 +29,15 @@ export class IslandForm {
       provence: this.selectedProvence,
       //user: this.user,
     };
-    this.islands.push(island);
-    console.log(this.islands);
+
+    // this.islands.push(island);
+    const success = await this.ds.addIsland(
+      this.name, this.description, this.selectedProvence, this.image,
+    )
+
+    this.name = '';
+    this.description = '';
+    this.image = '';
+    this.selectedProvence = '';
   }
 }

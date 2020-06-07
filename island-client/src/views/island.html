@@ -2,10 +2,12 @@
   <require from="../resources/elements/island-list"></require>
   <require from="../resources/elements/island-form"></require>
 
-  <div class="ui stackable two column grid">
+  <div class="ui stackable one column grid">
     <div class="column">
       <island-form islands.bind="islands" provence.bind="provence"></island-form>
     </div>
+  </div>
+  <div class="ui stackable one column grid">
     <div class="column">
       <island-list islands.bind="islands"></island-list>
     </div>

@@ -3,12 +3,12 @@ import { IslandService } from '../services/island-service';
 
 @inject(IslandService)
 export class Login {
-  email = 'marge@simpson.com';
-  password = 'secret';
+  email = '';
+  password = '';
   prompt = '';
 
   constructor(private ds: IslandService) {}
-
+  //this is where we are calling authenticate api
   async login(e) {
     console.log(`Trying to log in ${this.email}`);
     const success = await this.ds.login(this.email, this.password);

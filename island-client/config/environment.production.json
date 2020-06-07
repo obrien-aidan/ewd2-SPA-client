@@ -1,4 +1,9 @@
 {
   "debug": false,
-  "testing": false
+  "testing": false,
+  "cloudinary": {
+    "name": "dk85dbzil",
+    "key": "723179199168937",
+    "secret": "CHLis2hsseKOj_YXcBrbo5OzAYE"
+  }
 }
