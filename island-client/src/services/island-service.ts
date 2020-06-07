@@ -18,6 +18,7 @@ export class IslandService {
   constructor(private httpClient: HttpClient, private au: Aurelia, private router: Router) {
     httpClient.configure((http) => {
       http.withBaseUrl('http://localhost:3000');
+      //http.withBaseUrl('https://broadleaf-clover-aunt.glitch.me');h
     });
   }
 
