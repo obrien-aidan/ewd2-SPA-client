@@ -13,51 +13,68 @@ export class IslandService {
   provence = ['Munster', 'Ulster', 'Leinster', 'Connacht'];
   //usersById: Map<string, User> = new Map();
 
-
-
   constructor(private httpClient: HttpClient, private au: Aurelia, private router: Router) {
     httpClient.configure((http) => {
       http.withBaseUrl('http://localhost:3000');
-      //http.withBaseUrl('https://broadleaf-clover-aunt.glitch.me');h
+      //http.withBaseUrl('https://nameless-plains-99418.herokuapp.com/');
     });
   }
 
+
   async uploadImage(imageFile) {
+    const cloudClient = new HttpClient();
+    cloudClient.configure(http => {
+      http.withBaseUrl(`https://api.cloudinary.com/v1_1/${environment.cloudinary.name}`);
+    });
     const formData = new FormData();
     formData.append('file', imageFile[0]);
     formData.append('upload_preset', `${environment.cloudinary.preset}`);
 
+//   try {
+//      const response = await fetch(`https://api.cloudinary.com/v1_1/${environment.cloudinary.name}/upload`, {
+//        method: 'POST',
+//        headers: {
+//          'X-Requested-With': 'XMLHttpRequest'
+//        },
+//        body: formData
+//      });
+//      const content = await response.json()
+//      return content.url
+//    } catch (err) {
+//      console.log(err);
+//    }
+//  }
+
+
     try {
-      const response = await fetch(`https://api.cloudinary.com/v1_1/${environment.cloudinary.name}/upload`, {
-        method: 'POST',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: formData
-      });
-      const content = await response.json()
-      return content.url
+      //const response = await cloudClient.post(`https://api.cloudinary.com/v1_1/${environment.cloudinary.name}/image/upload`, formData);
+      const response = await cloudClient.post('/image/upload', formData);
+      return response.content.url
     } catch (err) {
       console.log(err);
     }
   }
 
+
+
+
+
   async addIsland(name: string, description: string, provence: string, image: File) {
 
-    const response = await this.httpClient.get('/api/user')
+    // const response = await this.httpClient.get('/api/users')
     const imageUrl = await this.uploadImage(image)
 
-    const user: User = response.content
+    // const user: User = response.content
     const island = {
       name: name,
       description: description,
       provence: provence,
-      user: user.firstName,
+      //user: user,
       image: imageUrl
 
     };
-    await this.httpClient.post('/api/users/' + user._id + '/islands', island);
-    alert("Island added successfully")
+    await this.httpClient.post('/api/users/islands', island);
+    //alert("Island added successfully")
     // this.getIslands()
     this.islands.push(island);
     //this.total = this.total + amount;
@@ -76,7 +93,8 @@ export class IslandService {
        image: rawIsland.image,
        description: rawIsland.description,
        provence : rawIsland.provence,
-//       user: rawIsland.user//this.usersById.get(rawIsland.user)
+       //user: rawIsland.user
+       //this.usersById.get(rawIsland.user)
         // candidate :this.candidates.find(candidate => rawDonation.candidate == candidate._id),
      }
      this.islands.push(island);

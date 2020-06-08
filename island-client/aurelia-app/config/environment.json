@@ -1,4 +1,8 @@
 {
   "debug": true,
-  "testing": true
+  "testing": true,
+  "cloudinary": {
+    "name": "dk85dbzil",
+    "preset": "ovwl2vhl"
+  }
 }
