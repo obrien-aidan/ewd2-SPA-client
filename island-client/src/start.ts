@@ -24,13 +24,13 @@ export class Start {
         nav: true,
         title: 'Signup',
       },
-      {
-        route: 'logout',
-        name: 'logout',
-        moduleId: PLATFORM.moduleName('views/logout'),
-        nav: true,
-        title: 'Logout'
-      }
+ //     {
+ //       route: 'logout',
+ //       name: 'logout',
+ //       moduleId: PLATFORM.moduleName('views/logout'),
+ //       nav: true,
+ //       title: 'Logout'
+ //     }
     ]);
     this.router = router;
   }

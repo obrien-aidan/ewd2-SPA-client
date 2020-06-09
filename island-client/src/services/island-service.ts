@@ -13,8 +13,8 @@ export class IslandService {
 
   constructor(private httpClient: HttpClient, private au: Aurelia, private router: Router) {
     httpClient.configure((http) => {
-      http.withBaseUrl('http://localhost:3000');
-      //http.withBaseUrl('https://nameless-plains-99418.herokuapp.com/');
+      //http.withBaseUrl('http://localhost:3000');
+      http.withBaseUrl('https://stormy-earth-44591.herokuapp.com/');
     });
   }
 
