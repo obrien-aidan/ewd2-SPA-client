@@ -1,10 +1,8 @@
-
 export interface Island {
   name: string;
   description: string;
   provence: string;
   image: string;
- // user: string
 }
 
 export interface User {

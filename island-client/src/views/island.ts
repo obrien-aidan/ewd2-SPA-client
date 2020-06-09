@@ -7,10 +7,7 @@ export class islandClass {
   islands: Island[];
   provence: string[];
 
-  //candidates: Candidate[];
-
   constructor(private ds: IslandService) {
-    //this.candidates = ds.candidates;
     this.islands = ds.islands;
     this.provence = ds.provence;
   }

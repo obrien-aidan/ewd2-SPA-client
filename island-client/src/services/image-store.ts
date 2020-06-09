@@ -1,3 +1,4 @@
+//delete page
 import * as environment from '../../config/environment.json';
 import { HttpClient } from 'aurelia-http-client';
 import { autoinject } from 'aurelia-framework';

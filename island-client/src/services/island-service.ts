@@ -8,10 +8,8 @@ import * as environment from '../../config/environment.json';
 
 @inject(HttpClient, Aurelia, Router, ImageStore)
 export class IslandService {
-  //users: Map<string, User> = new Map();
   islands: Island[] = [];
   provence = ['Munster', 'Ulster', 'Leinster', 'Connacht'];
-  //usersById: Map<string, User> = new Map();
 
   constructor(private httpClient: HttpClient, private au: Aurelia, private router: Router) {
     httpClient.configure((http) => {
@@ -19,7 +17,6 @@ export class IslandService {
       //http.withBaseUrl('https://nameless-plains-99418.herokuapp.com/');
     });
   }
-
 
   async uploadImage(imageFile) {
     const cloudClient = new HttpClient();
@@ -31,7 +28,6 @@ export class IslandService {
     formData.append('upload_preset', `${environment.cloudinary.preset}`);
 
     try {
-      //const response = await cloudClient.post(`https://api.cloudinary.com/v1_1/${environment.cloudinary.name}/image/upload`, formData);
       const response = await cloudClient.post('/image/upload', formData);
       return response.content.url
     } catch (err) {
@@ -39,31 +35,16 @@ export class IslandService {
     }
   }
 
-
-
-
-
   async addIsland(name: string, description: string, provence: string, image: File) {
-
-    // const response = await this.httpClient.get('/api/users')
     const imageUrl = await this.uploadImage(image)
-
-    // const user: User = response.content
     const island = {
       name: name,
       description: description,
       provence: provence,
-      //user: user,
       image: imageUrl
-
     };
     await this.httpClient.post('/api/users/islands', island);
-    //alert("Island added successfully")
-    // this.getIslands()
     this.islands.push(island);
-    //this.total = this.total + amount;
-    //this.ea.publish(new TotalUpdate(this.total));
-    //console.log('Total so far ' + this.total);
   }
 
  async getIslands() {
@@ -77,9 +58,6 @@ export class IslandService {
        image: rawIsland.image,
        description: rawIsland.description,
        provence : rawIsland.provence,
-       //user: rawIsland.user
-       //this.usersById.get(rawIsland.user)
-        // candidate :this.candidates.find(candidate => rawDonation.candidate == candidate._id),
      }
      this.islands.push(island);
    });
@@ -106,6 +84,7 @@ export class IslandService {
           configuration.withHeader('Authorization', 'bearer ' + status.token);
         });
         localStorage.islands = JSON.stringify(response.content);
+        //ISSUE WITH THIS CALL!! (i think) CAUSING ISLANDS TO BE RE RENDERED EVERY LOGIN
         await this.getIslands();
         this.changeRouter(PLATFORM.moduleName('app'));
         success = status.success;
@@ -123,19 +102,6 @@ export class IslandService {
     });
     this.changeRouter(PLATFORM.moduleName('start'));
   }
- // async login(email: string, password: string) {
- //   const user = this.users.get(email);
- //   if (user && (user.password === password)) {
- //     this.changeRouter(PLATFORM.moduleName('app'))
- //     return true;
- //   } else {
- //     return false;
- //   }
- // }
-
- // logout() {
- //   this.changeRouter(PLATFORM.moduleName('start'))
- // }
 
   checkIsAuthenticated() {
     let authenticated = false;
