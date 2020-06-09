@@ -8,7 +8,6 @@ export class Login {
   prompt = '';
 
   constructor(private ds: IslandService) {}
-  //this is where we are calling authenticate api
   async login(e) {
     console.log(`Trying to log in ${this.email}`);
     const success = await this.ds.login(this.email, this.password);

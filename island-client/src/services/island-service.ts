@@ -30,22 +30,6 @@ export class IslandService {
     formData.append('file', imageFile[0]);
     formData.append('upload_preset', `${environment.cloudinary.preset}`);
 
-//   try {
-//      const response = await fetch(`https://api.cloudinary.com/v1_1/${environment.cloudinary.name}/upload`, {
-//        method: 'POST',
-//        headers: {
-//          'X-Requested-With': 'XMLHttpRequest'
-//        },
-//        body: formData
-//      });
-//      const content = await response.json()
-//      return content.url
-//    } catch (err) {
-//      console.log(err);
-//    }
-//  }
-
-
     try {
       //const response = await cloudClient.post(`https://api.cloudinary.com/v1_1/${environment.cloudinary.name}/image/upload`, formData);
       const response = await cloudClient.post('/image/upload', formData);

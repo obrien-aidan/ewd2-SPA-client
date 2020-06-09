@@ -14,8 +14,5 @@ export class islandClass {
     this.islands = ds.islands;
     this.provence = ds.provence;
   }
-//yes lets trye without raw first
-
-
 
 }
